@@ -115,6 +115,7 @@ export class GetFeatureStatusUseCase {
 
   private isFreeFeature(featureId: NativeFeatureIdentifier) {
     return [
+      NativeFeatureIdentifier.TYPES.WhiteTheme,
       NativeFeatureIdentifier.TYPES.DarkTheme,
       NativeFeatureIdentifier.TYPES.PlainEditor,
       NativeFeatureIdentifier.TYPES.ProtonTheme,

@@ -60,6 +60,20 @@ export function themes(): ThemeFeatureDescription[] {
     },
   })
 
+  const white: ThemeFeatureDescription = FillThemeComponentDefaults({
+    availableInRoles: [RoleName.NAMES.CoreUser, RoleName.NAMES.PlusUser, RoleName.NAMES.ProUser],
+    name: 'White',
+    identifier: NativeFeatureIdentifier.TYPES.WhiteTheme,
+    permission_name: PermissionName.WhiteTheme,
+    isDark: false,
+    dock_icon: {
+      type: 'circle',
+      background_color: '#a464c2',
+      foreground_color: '#ffffff',
+      border_color: '#a464c2',
+    },
+  })
+
   const dark: ThemeFeatureDescription = FillThemeComponentDefaults({
     availableInRoles: [RoleName.NAMES.CoreUser, RoleName.NAMES.PlusUser, RoleName.NAMES.ProUser],
     name: 'Dark',
@@ -110,5 +124,5 @@ export function themes(): ThemeFeatureDescription[] {
     },
   })
 
-  return [midnight, futura, solarizedDark, autobiography, dark, proton, titanium, dynamic]
+  return [midnight, futura, solarizedDark, autobiography, dark, proton, titanium, dynamic, white]
 }

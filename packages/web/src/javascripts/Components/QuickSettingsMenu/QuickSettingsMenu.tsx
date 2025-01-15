@@ -33,8 +33,7 @@ const QuickSettingsMenu: FunctionComponent<MenuProps> = ({ closeMenu }) => {
   const [editorStackComponents, setEditorStackComponents] = useState<ComponentInterface[]>([])
 
   const activeThemes = application.componentManager.getActiveThemes()
-  const hasNonLayerableActiveTheme = activeThemes.find((theme) => !theme.layerable)
-  const defaultThemeOn = !hasNonLayerableActiveTheme
+  const defaultThemeOn = activeThemes.length === 0
 
   const prefsButtonRef = useRef<HTMLButtonElement>(null)
   const defaultThemeButtonRef = useRef<HTMLButtonElement>(null)

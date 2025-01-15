@@ -24,7 +24,7 @@ export class Migration2_208_0 extends Migration {
       ),
     )
     this.services.preferences.setLocalValue(
-      LocalPrefKey.UseSystemColorScheme,
+      LocalPrefKey.DEPRECATED_UseSystemColorScheme,
       this.services.preferences.getValue(
         PrefKey.DEPRECATED_UseSystemColorScheme,
         PrefDefaults[PrefKey.DEPRECATED_UseSystemColorScheme],

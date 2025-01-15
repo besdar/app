@@ -5,7 +5,7 @@ export enum LocalPrefKey {
   ListPaneCollapsed = 'listPaneCollapsed',
   NavigationPaneCollapsed = 'navigationPaneCollapsed',
   ActiveThemes = 'activeThemes',
-  UseSystemColorScheme = 'useSystemColorScheme',
+  DEPRECATED_UseSystemColorScheme = 'useSystemColorScheme',
   UseTranslucentUI = 'useTranslucentUI',
   AutoLightThemeIdentifier = 'autoLightThemeIdentifier',
   AutoDarkThemeIdentifier = 'autoDarkThemeIdentifier',
@@ -20,7 +20,7 @@ export type LocalPrefValue = {
   [LocalPrefKey.ListPaneCollapsed]: boolean
   [LocalPrefKey.NavigationPaneCollapsed]: boolean
   [LocalPrefKey.ActiveThemes]: string[]
-  [LocalPrefKey.UseSystemColorScheme]: boolean
+  [LocalPrefKey.DEPRECATED_UseSystemColorScheme]: boolean
   [LocalPrefKey.UseTranslucentUI]: boolean
   [LocalPrefKey.AutoLightThemeIdentifier]: string
   [LocalPrefKey.AutoDarkThemeIdentifier]: string
@@ -35,9 +35,9 @@ export const LocalPrefDefaults = {
   [LocalPrefKey.ListPaneCollapsed]: false,
   [LocalPrefKey.NavigationPaneCollapsed]: false,
   [LocalPrefKey.ActiveThemes]: [],
-  [LocalPrefKey.UseSystemColorScheme]: false,
+  [LocalPrefKey.DEPRECATED_UseSystemColorScheme]: false,
   [LocalPrefKey.UseTranslucentUI]: true,
-  [LocalPrefKey.AutoLightThemeIdentifier]: 'Default',
+  [LocalPrefKey.AutoLightThemeIdentifier]: NativeFeatureIdentifier.TYPES.WhiteTheme,
   [LocalPrefKey.AutoDarkThemeIdentifier]: NativeFeatureIdentifier.TYPES.DarkTheme,
 
   [LocalPrefKey.EditorMonospaceEnabled]: false,

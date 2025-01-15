@@ -10,6 +10,7 @@ export enum PermissionName {
   FilesMaximumStorageTier = 'server:files-max-storage-tier',
   FilesLowStorageTier = 'server:files-low-storage-tier',
   FocusedTheme = 'theme:focused',
+  WhiteTheme = 'theme:white',
   FocusMode = 'app:focus-mode',
   FuturaTheme = 'theme:futura',
   ListedCustomDomain = 'listed:custom-domain',

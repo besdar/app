@@ -27,7 +27,6 @@ const Appearance: FunctionComponent<Props> = ({ application }) => {
 
   const [autoLightTheme, setAutoLightTheme] = useLocalPreference(LocalPrefKey.AutoLightThemeIdentifier)
   const [autoDarkTheme, setAutoDarkTheme] = useLocalPreference(LocalPrefKey.AutoDarkThemeIdentifier)
-  const [useDeviceSettings, setUseDeviceSettings] = useLocalPreference(LocalPrefKey.UseSystemColorScheme)
 
   const [useTranslucentUI, setUseTranslucentUI] = useLocalPreference(LocalPrefKey.UseTranslucentUI)
   const toggleTranslucentUI = () => {
@@ -39,11 +38,6 @@ const Appearance: FunctionComponent<Props> = ({ application }) => {
     const { thirdParty, native } = usecase.execute({ excludeLayerable: true })
 
     const dropdownItems: DropdownItem[] = []
-
-    dropdownItems.push({
-      label: 'Default',
-      value: 'Default',
-    })
 
     dropdownItems.push(
       ...native.map((theme) => {
@@ -69,17 +63,6 @@ const Appearance: FunctionComponent<Props> = ({ application }) => {
 
     setThemeItems(naturalSort(dropdownItems, 'label'))
   }, [application])
-
-  const toggleUseDeviceSettings = () => {
-    setUseDeviceSettings(!useDeviceSettings)
-    if (!application.preferences.getLocalValue(LocalPrefKey.AutoLightThemeIdentifier)) {
-      setAutoLightTheme(autoLightTheme)
-    }
-    if (!application.preferences.getLocalValue(LocalPrefKey.AutoDarkThemeIdentifier)) {
-      setAutoDarkTheme(autoDarkTheme)
-    }
-    setUseDeviceSettings(!useDeviceSettings)
-  }
 
   const changeAutoLightTheme = (value: string) => {
     const item = themeItems.find((item) => item.value === value)
@@ -113,14 +96,6 @@ const Appearance: FunctionComponent<Props> = ({ application }) => {
               <Switch onChange={toggleTranslucentUI} checked={!useTranslucentUI} />
             </div>
             <HorizontalSeparator classes="my-4" />
-            <div className="flex justify-between gap-2 md:items-center">
-              <div className="flex flex-col">
-                <Subtitle>Use system color scheme</Subtitle>
-                <Text>Automatically change active theme based on your system settings.</Text>
-              </div>
-              <Switch onChange={toggleUseDeviceSettings} checked={useDeviceSettings} />
-            </div>
-            <HorizontalSeparator classes="my-4" />
             <div>
               <Subtitle>Automatic Light Theme</Subtitle>
               <Text>Theme to be used for system light mode:</Text>
@@ -130,7 +105,6 @@ const Appearance: FunctionComponent<Props> = ({ application }) => {
                   items={themeItems}
                   value={autoLightTheme}
                   onChange={changeAutoLightTheme}
-                  disabled={!useDeviceSettings}
                 />
               </div>
             </div>
@@ -144,7 +118,6 @@ const Appearance: FunctionComponent<Props> = ({ application }) => {
                   items={themeItems}
                   value={autoDarkTheme}
                   onChange={changeAutoDarkTheme}
-                  disabled={!useDeviceSettings}
                 />
               </div>
             </div>

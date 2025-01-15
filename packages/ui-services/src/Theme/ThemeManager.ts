@@ -113,7 +113,7 @@ export class ThemeManager extends AbstractUIService {
   }
 
   async handleMobileColorSchemeChangeEvent() {
-    const useDeviceThemeSettings = this.preferences.getLocalValue(LocalPrefKey.UseSystemColorScheme, false)
+    const useDeviceThemeSettings = this.themesActiveInTheUI.isEmpty()
 
     if (useDeviceThemeSettings) {
       const prefersDarkColorScheme = (await this.application.mobileDevice.getColorScheme()) === 'dark'
@@ -168,7 +168,7 @@ export class ThemeManager extends AbstractUIService {
 
     this.toggleTranslucentUIColors()
 
-    const useSystemColorScheme = this.preferences.getLocalValue(LocalPrefKey.UseSystemColorScheme, false)
+    const useSystemColorScheme = this.themesActiveInTheUI.isEmpty()
     const autoLightTheme = this.preferences.getLocalValue(LocalPrefKey.AutoLightThemeIdentifier, DefaultThemeIdentifier)
     const autoDarkTheme = this.preferences.getLocalValue(
       LocalPrefKey.AutoDarkThemeIdentifier,
@@ -217,7 +217,7 @@ export class ThemeManager extends AbstractUIService {
       }
     }
 
-    const shouldSetThemeAsPerColorScheme = this.preferences.getLocalValue(LocalPrefKey.UseSystemColorScheme, false)
+    const shouldSetThemeAsPerColorScheme = this.themesActiveInTheUI.isEmpty()
     if (shouldSetThemeAsPerColorScheme) {
       let prefersDarkColorScheme = window.matchMedia('(prefers-color-scheme: dark)').matches
       if (this.application.isNativeMobileWeb()) {
@@ -232,7 +232,7 @@ export class ThemeManager extends AbstractUIService {
   }
 
   private colorSchemeEventHandler(event: MediaQueryListEvent) {
-    const shouldChangeTheme = this.preferences.getLocalValue(LocalPrefKey.UseSystemColorScheme, false)
+    const shouldChangeTheme = this.themesActiveInTheUI.isEmpty()
 
     if (shouldChangeTheme) {
       this.setThemeAsPerColorScheme(event.matches)
@@ -246,28 +246,19 @@ export class ThemeManager extends AbstractUIService {
       ? LocalPrefKey.AutoDarkThemeIdentifier
       : LocalPrefKey.AutoLightThemeIdentifier
 
-    const preferenceDefault =
-      preference === LocalPrefKey.AutoDarkThemeIdentifier
-        ? NativeFeatureIdentifier.TYPES.DarkTheme
-        : DefaultThemeIdentifier
-
     const usecase = new GetAllThemesUseCase(this.application.items)
     const { thirdParty, native } = usecase.execute({ excludeLayerable: false })
     const themes = [...thirdParty, ...native]
 
     const activeTheme = themes.find((theme) => this.components.isThemeActive(theme) && !theme.layerable)
 
-    const themeIdentifier = this.preferences.getLocalValue(preference, preferenceDefault)
+    const themeIdentifier = this.preferences.getLocalValue(preference, DefaultThemeIdentifier)
 
-    const toggleActiveTheme = () => {
+    if (themeIdentifier === DefaultThemeIdentifier) {
       if (activeTheme) {
         void this.components.toggleTheme(activeTheme)
         didChangeTheme = true
       }
-    }
-
-    if (themeIdentifier === DefaultThemeIdentifier) {
-      toggleActiveTheme()
     } else {
       const theme = themes.find((theme) => theme.featureIdentifier === themeIdentifier)
       if (theme) {
